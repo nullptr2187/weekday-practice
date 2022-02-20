@@ -262,6 +262,24 @@ function loadSettings() {
     if (value != null) {
         selected_voice_name = value;
     }
+
+    opt_fg_color.onchange = function() {
+        localStorage.setItem('opt_fg_color', opt_fg_color.value);
+    }
+    value = localStorage.getItem('opt_fg_color');
+    if (value != null) {
+        root.style.setProperty('--fg-color', value);
+    }
+    opt_fg_color.value = root.style.getPropertyValue('--fg-color');
+
+    opt_bg_color.onchange = function() {
+        localStorage.setItem('opt_bg_color', opt_bg_color.value);
+    }
+    value = localStorage.getItem('opt_bg_color');
+    if (value != null) {
+        root.style.setProperty('--bg-color', value);
+    }
+    opt_bg_color.value = root.style.getPropertyValue('--bg-color');
 }
 
 setup();
