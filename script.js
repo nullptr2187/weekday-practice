@@ -14,6 +14,7 @@ var rateValue = document.querySelector('.rate-value');
 var voices = [];
 
 let default_voice = 'DEFAULT'
+var lockbutton = false;
 
 function populateVoiceList() {
   voices = synth.getVoices().sort(function (a, b) {
@@ -159,11 +160,15 @@ function setup() {
     audio.src = "silence.flac";
 
     audio.onpause = function() {
-        audio_action();
+        if (!lockbutton) {
+            lockbutton = true;
+            audio_action();
+            setTimeout(() => {lockbutton = false}, 1000);
+        }
     }
 
     audio.onplay = function() {
-        audio_action();
+        audio.pause()
     }
 }
 
