@@ -182,10 +182,11 @@ function setup() {
 
     main_element.onclick = audio_action;
 
-    var options_button = document.getElementById("options");
+    var options_button = document.getElementById("options-button");
     var colls = document.getElementsByClassName("collapsible");
 
-    options_button.addEventListener("click", function() {
+    options_button.onclick = function() {
+        var j = 0;
         for (j = 0; j < colls.length; ++j) {
             var element = colls[j];
             if (element.style.display === "block") {
@@ -194,7 +195,7 @@ function setup() {
                 element.style.display = "block";
             }
         }
-    });
+    };
 }
 
 setup();
