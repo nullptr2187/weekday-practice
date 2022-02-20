@@ -45,6 +45,7 @@ audio {
     <script type="text/javascript">
         var guessing = true;
         var current_date = null;
+        var utterance = null
 
         function random_date(start, end) {
             let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -67,9 +68,9 @@ audio {
 
         function say(text) {
           if (document.getElementById("tts").checked) {
-            var msg = new SpeechSynthesisUtterance();
-            msg.text = text;
-            window.speechSynthesis.speak(msg);
+            window.speechSynthesis.cancel();
+            var utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
           }
         }
 
@@ -90,6 +91,22 @@ audio {
         }
 
         function setup() {
+
+
+          var synth = window.speechSynthesis;
+var voices = synth.getVoices();
+
+var inputForm = document.querySelector('form');
+var inputTxt = document.querySelector('input');
+var voiceSelect = document.querySelector('select');
+
+for(var i = 0; i < voices.length; i++) {
+  var option = document.createElement('option');
+  option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+  option.value = i;
+  voiceSelect.appendChild(option);
+}
+
             get_new_date();
             guessing = true;
 
