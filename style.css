@@ -26,6 +26,10 @@ h1, p {
   padding: 5px;
 }
 
+.centered-div {
+  text-align: center;
+}
+
 .txt {
   width: 80%;
 }
@@ -76,10 +80,6 @@ form > div {
 
 .controls button {
   padding: 10px;
-}
-
-audio {
-  width: 100vw;
 }
 
 /* Style the button that is used to open and close the collapsible content */
