@@ -54,7 +54,7 @@ audio {
             //audio.src = beep;
 
             let audio = document.getElementById("audio");
-            audio.src = "underground.mp3";
+            audio.src = "silence.ogg";
 
             audio.onpause = function() {
               console.log("paused");
@@ -117,7 +117,7 @@ audio {
 
     <div class="centered-div">
     <audio loop controls id="audio">
-      <source src="underground.mp3" type="audio/ogg">
+      <source src="silence.ogg" type="audio/ogg">
       Your browser does not support the audio element.
     </audio>
     </div>
