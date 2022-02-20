@@ -70,9 +70,14 @@ audio {
         }
 
         function format_date(date) {
-            let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-            let string = months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear()
-            return string
+            let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            let string = months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+            return string;
+        }
+
+        function get_day_string(date) {
+          let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+          return days[date.getDay()];
         }
 
         function new_date_string() {
