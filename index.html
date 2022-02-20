@@ -14,7 +14,7 @@ h1 {
 
 .grid-container {
   display: grid;
-  height: 400px;
+  height: 40%;
   align-content: center;
   grid-template-columns: auto auto auto;
   gap: 10px;
@@ -55,9 +55,6 @@ h1 {
         }
 
         function play_date_sound() {
-            let audio = document.getElementById("audio");
-            audio.play();
-
             var msg = new SpeechSynthesisUtterance();
             msg.text = "June 14, 1703";
             msg.addEventListener("end", event => {
