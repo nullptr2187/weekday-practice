@@ -78,14 +78,6 @@ inputForm.onsubmit = function(event) {
     speak(date_string);
 }
 
-opt_speech_pitch.onchange = function() {
-  pitchValue.textContent = opt_speech_pitch.value;
-}
-
-opt_speech_rate.onchange = function() {
-  rateValue.textContent = opt_speech_rate.value;
-}
-
 function random_date(start, end) {
     let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     if (date.getFullYear() == 2001 && date.getDate() == 11 && date.getMonth() == 8) {
@@ -198,12 +190,46 @@ function setup() {
     options_button.onclick = toggle_options;
 }
 
-function loadSettings() {
-
+function isTrue(s) {
+    return (s === 'true');
 }
+function loadSettings() {
+    opt_random.onchange = function () {
+        localStorage.setItem('opt_random', opt_random.checked);
+    }
+    var value = localStorage.getItem('opt_random');
+    if (value != null) {
+        opt_random.checked = isTrue(value);
+    }
 
-function saveSettings() {
+    opt_speech_enabled.onchange = function () {
+        localStorage.setItem('opt_speech_enabled', opt_speech_enabled.checked);
+    }
+    value = localStorage.getItem('opt_speech_enabled');
+    if (value != null) {
+        opt_speech_enabled.checked = isTrue(value);
+    }
 
+    opt_speech_pitch.onchange = function () {
+        localStorage.setItem('opt_speech_pitch', opt_speech_pitch.value);
+        pitchValue.textContent = opt_speech_pitch.value;
+    }
+    value = localStorage.getItem('opt_speech_pitch');
+    if (value != null) {
+        opt_speech_pitch.value = value;
+        opt_speech_pitch.onchange();
+    }
+
+    opt_speech_rate.onchange = function () {
+        localStorage.setItem('opt_speech_rate', opt_speech_rate.value);
+        rateValue.textContent = opt_speech_rate.value;
+    }
+    value = localStorage.getItem('opt_speech_rate');
+    if (value != null) {
+        opt_speech_rate.value = value;
+        opt_speech_rate.onchange();
+    }
 }
 
 setup();
+loadSettings();
