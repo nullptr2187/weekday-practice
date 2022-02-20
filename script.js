@@ -175,6 +175,14 @@ function toggle_options() {
     }
 }
 
+opt_speech_pitch.oninput = function() {
+    pitchValue.textContent = opt_speech_pitch.value;
+}
+
+opt_speech_rate.oninput = function () {
+    rateValue.textContent = opt_speech_rate.value;
+}
+
 function setup() {
     guessing = true;
     let date_string = get_new_date();
