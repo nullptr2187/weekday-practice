@@ -30,6 +30,10 @@ h1, p {
   text-align: center;
 }
 
+audio {
+  width: 100%;
+}
+
 .txt {
   width: 80%;
 }
@@ -40,6 +44,10 @@ select {
 
 form > div {
   width: 81%;
+}
+
+.main-element {
+  cursor: pointer;
 }
 
 .txt, form > div {
@@ -84,19 +92,16 @@ form > div {
 
 /* Style the button that is used to open and close the collapsible content */
 .collapse-button {
-  background-color: #eee;
-  color: #444;
+  text-align: center;
   cursor: pointer;
   padding: 18px;
-  width: 100%;
   border: none;
-  text-align: left;
   outline: none;
   font-size: 15px;
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .collapse-button:hover {
+.active {
   background-color: #ccc;
 }
 

@@ -12,6 +12,8 @@ var rate = document.querySelector('#rate');
 var rateValue = document.querySelector('.rate-value');
 
 var randomVoice = document.getElementById("random");
+var tts_option = document.getElementById("tts");
+var main_element = document.getElementById("main-element");
 
 var voices = [];
 
@@ -124,7 +126,7 @@ function get_date_string_for_tts(date) {
 }
 
 function speak_if_tts(text) {
-    if (document.getElementById("tts").checked) {
+    if (tts_option.checked) {
         speak(text);
     }
 }
@@ -132,13 +134,13 @@ function speak_if_tts(text) {
 function get_new_date() {
     current_date = random_date(new Date("1700-01-01"), new Date("2100-01-01"));
     let date_string = get_date_string(current_date);
-    document.getElementById("main-element").textContent = date_string;
+    main_element.textContent = date_string;
     return date_string;
 }
 
 function show_weekday() {
     let weekday = get_weekday_string(current_date);
-    document.getElementById("main-element").textContent = weekday;
+    main_element.textContent = weekday;
     return weekday;
 }
 
@@ -156,6 +158,14 @@ function audio_action() {
     }
 }
 
+function change_main_element() {
+    if (!lockbutton) {
+        lockbutton = true;
+        audio_action();
+        setTimeout(() => {lockbutton = false}, 1000);
+    }
+}
+
 function setup() {
     guessing = true;
     let date_string = get_new_date();
@@ -164,17 +174,13 @@ function setup() {
     let audio = document.getElementById("audio");
     audio.src = "silence.flac";
 
-    audio.onpause = function() {
-        if (!lockbutton) {
-            lockbutton = true;
-            audio_action();
-            setTimeout(() => {lockbutton = false}, 1000);
-        }
-    }
+    audio.onpause = change_main_element;
 
     audio.onplay = function() {
         audio.pause()
     }
+
+    main_element.onclick = audio_action;
 
     var coll = document.getElementsByClassName("collapse-button");
     var i;
@@ -191,6 +197,5 @@ function setup() {
     });
     }
 }
-
 
 setup();
