@@ -2,126 +2,17 @@
 <html>
 
 <head>
-<style>
-body {
-  background-color: linen;
-}
 
-.centered-div {
-    width: 50%;
-    height: 25%;
-}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
 
-h1 {
-  color: maroon;
-  margin-left: 40px;
-}
+  <title>Weekday</title>
 
-.grid-container {
-  display: grid;
-  height: 20vh;
-  align-content: bottom;
-  grid-template-columns: auto auto auto;
-  gap: 10px;
-  background-color: linen;
-  padding: 10px;
-}
-
-.grid-container > div {
-  background-color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  padding: 20px 0;
-  font-size: 30px;
-}
-
-audio {
-  width: 100vw;
-}
-
-</style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="javascript:setup();">
-    <script type="text/javascript">
-        var guessing = true;
-        var current_date = null;
-        var utterance = null
-
-        function random_date(start, end) {
-            let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            if (date.getFullYear() == 2001 && date.getDate() == 11 && date.getMonth() == 8) {
-                return random_date(start, end);
-            } 
-            return date;
-        }
-
-        function get_date_string(date) {
-            let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            let string = months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
-            return string;
-        }
-
-        function get_day_string(date) {
-          let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-          return days[date.getDay()];
-        }
-
-        function say(text) {
-          if (document.getElementById("tts").checked) {
-            window.speechSynthesis.cancel();
-            var utterance = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(utterance);
-          }
-        }
-
-        function get_new_date() {
-            current_date = random_date(new Date("1700-01-01"), new Date("2100-01-01"));
-            document.getElementById("date-element").textContent = get_date_string(current_date);
-        }
-
-        function audio_action() {
-          if (guessing) {
-            say(get_day_string(current_date));
-            guessing = false;
-          } else {
-            get_new_date();
-            say(get_date_string(current_date));
-            guessing = true;
-          }
-        }
-
-        function setup() {
-
-
-          var synth = window.speechSynthesis;
-var voices = synth.getVoices();
-
-var inputForm = document.querySelector('form');
-var inputTxt = document.querySelector('input');
-var voiceSelect = document.querySelector('select');
-
-for(var i = 0; i < voices.length; i++) {
-  var option = document.createElement('option');
-  option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-  option.value = i;
-  voiceSelect.appendChild(option);
-}
-
-            get_new_date();
-            guessing = true;
-
-            let audio = document.getElementById("audio");
-            audio.src = "silence.flac";
-
-            audio.onpause = function() {
-              audio_action();
-            }
-
-            audio.onplay = function() {
-              audio_action();
-            }
-        }
-    </script>
+<body>
     <div class="centered-div">
     <a href="javascript:play_date_sound();">Play sound</a>
     </div>
@@ -154,4 +45,33 @@ for(var i = 0; i < voices.length; i++) {
         <div>7</div>  
         <div></div>  
       </div>
+
+    <h1>Speech synthesiser</h1>
+
+    <p>Enter some text in the input below and press return  or the "play" button to hear it. change voices using the dropdown menu.</p>
+    
+    <form>
+    <input type="text" class="txt">
+    <div>
+      <label for="rate">Rate</label><input type="range" min="0.5" max="2" value="1" step="0.1" id="rate">
+      <div class="rate-value">1</div>
+      <div class="clearfix"></div>
+    </div>
+    <div>
+      <label for="pitch">Pitch</label><input type="range" min="0" max="2" value="1" step="0.1" id="pitch">
+      <div class="pitch-value">1</div>
+      <div class="clearfix"></div>
+    </div>
+    <select>
+
+    </select>
+    <div class="controls">
+      <button id="play" type="submit">Play</button>
+    </div>
+    </form>
+
+    <script src="script.js"></script>
+
+    </form>
+
 </body>
