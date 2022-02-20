@@ -24,6 +24,9 @@ function populateVoiceList() {
   var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
   voiceSelect.innerHTML = '';
   for(i = 0; i < voices.length ; i++) {
+    if (!voices[i].lang.startsWith('en')) {
+        continue;
+    }
     var option = document.createElement('option');
     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
     
@@ -43,36 +46,27 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = populateVoiceList;
 }
 
-function speak(){
-    if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
-        return;
-    }
-    if (inputTxt.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(inputTxt.value);
-    utterThis.onend = function (event) {
-        console.log('SpeechSynthesisUtterance.onend');
-    }
-    utterThis.onerror = function (event) {
-        console.error('SpeechSynthesisUtterance.onerror');
-    }
+function speak(text) {
+    synth.cancel()
+    var utterThis = new SpeechSynthesisUtterance(text);
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
     for(i = 0; i < voices.length ; i++) {
-      if(voices[i].name === selectedOption) {
+        if(voices[i].name === selectedOption) {
         utterThis.voice = voices[i];
         break;
-      }
+        }
     }
     utterThis.pitch = pitch.value;
     utterThis.rate = rate.value;
     synth.speak(utterThis);
-  }
 }
 
 inputForm.onsubmit = function(event) {
   event.preventDefault();
 
-  speak();
+  if (inputTxt.value !== '') {
+    speak(inputTxt.value);
+  }
 
   inputTxt.blur();
 }
@@ -108,11 +102,32 @@ function get_day_string(date) {
     return days[date.getDay()];
 }
 
-function say(text) {
+function get_date_string_for_tts(date) {
+    let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let month = months[date.getMonth()];
+    let dayofmonth = date.getDate().toString();
+
+    switch (dayofmonth.charAt(dayofmonth.length - 1)) {
+        case '1':
+            dayofmonth += "st"
+            break;
+        case '2':
+            dayofmonth += "nd"
+            break;
+        case '3':
+            dayofmonth += "rd"
+            break;
+        default:
+            dayofmonth += "th"
+            break;
+    }
+
+    return month + " " + dayofmonth + " " + date.getFullYear();
+}
+
+function speak_if_tts(text) {
     if (document.getElementById("tts").checked) {
-    window.speechSynthesis.cancel();
-    var utterance = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(utterance);
+        speak(text);
     }
 }
 
@@ -123,17 +138,18 @@ function get_new_date() {
 
 function audio_action() {
     if (guessing) {
-    say(get_day_string(current_date));
+    speak_if_tts(get_day_string(current_date));
     guessing = false;
     } else {
     get_new_date();
-    say(get_date_string(current_date));
+    speak_if_tts(get_date_string_for_tts(current_date));
     guessing = true;
     }
 }
 
 function setup() {
     get_new_date();
+    inputTxt.value = get_date_string_for_tts(new Date(Date.now()));
     guessing = true;
 
     let audio = document.getElementById("audio");
