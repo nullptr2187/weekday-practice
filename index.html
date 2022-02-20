@@ -14,8 +14,8 @@ h1 {
 
 .grid-container {
   display: grid;
-  height: 40%;
-  align-content: center;
+  height: 20vh;
+  align-content: bottom;
   grid-template-columns: auto auto auto;
   gap: 10px;
   background-color: linen;
@@ -90,9 +90,13 @@ h1 {
         }
 
     </script>
+    <div>
     <a href="javascript:play_date_sound();">Play sound</a>
+    </div>
 
+    <div>
     <a id="date-element"> DATE </a>
+    </div>
     <button onclick="javascript:new_date_string();">Next Date</button>
 
     <div>
@@ -100,10 +104,12 @@ h1 {
     <label for="tts">TTS?</label>
     </div>
 
+    <div>
     <audio loop controls id="audio">
       <source src="underground.mp3" type="audio/ogg">
       Your browser does not support the audio element.
     </audio>
+    </div>
 
     <div class="grid-container">
         <div>1</div>
@@ -112,6 +118,8 @@ h1 {
         <div>4</div>
         <div>5</div>
         <div>6</div>  
+        <div></div>  
         <div>7</div>  
+        <div></div>  
       </div>
 </body>
