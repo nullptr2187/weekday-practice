@@ -21,11 +21,12 @@ var colls = document.getElementById("collapsible");
 var voices = [];
 
 let default_voice = 'DEFAULT'
+let selected_voice_name = null;
 var lockbutton = false;
 
 function populateVoiceList() {
-  voices = synth.getVoices().filter(voice => voice.lang.startsWith('en'));
-  var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+    voices = synth.getVoices().filter(voice => voice.lang.startsWith('en'));
+    var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
 
     voiceSelect.innerHTML = '';
     var option = document.createElement('option');
@@ -33,13 +34,17 @@ function populateVoiceList() {
     option.setAttribute('data-name', default_voice);
     voiceSelect.appendChild(option);
 
-  for(i = 0; i < voices.length ; i++) {
-    var option = document.createElement('option');
-    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-    option.setAttribute('data-lang', voices[i].lang);
-    option.setAttribute('data-name', voices[i].name);
-    voiceSelect.appendChild(option);
-  }
+    for(i = 0; i < voices.length ; i++) {
+        var option = document.createElement('option');
+        option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+        option.setAttribute('data-lang', voices[i].lang);
+        option.setAttribute('data-name', voices[i].name);
+        voiceSelect.appendChild(option);
+
+        if (selected_voice_name === voices[i].name) {
+            selectedIndex = i + 1;
+        }
+    }
 
   voiceSelect.selectedIndex = selectedIndex;
 }
@@ -52,7 +57,6 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 function speak(text) {
     synth.cancel()
     var utterThis = new SpeechSynthesisUtterance(text);
-    var selectedOption;
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
     if (opt_random.checked) {
         let index = Math.floor(Math.random() * voices.length) + 1;
@@ -228,6 +232,15 @@ function loadSettings() {
     if (value != null) {
         opt_speech_rate.value = value;
         opt_speech_rate.onchange();
+    }
+
+    voiceSelect.onchange = function () {
+        let selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+        localStorage.setItem('selected_voice', selectedOption);
+    }
+    value = localStorage.getItem('selected_voice');
+    if (value != null) {
+        selected_voice_name = value;
     }
 }
 
