@@ -210,8 +210,7 @@ function setup() {
     main_element.onclick = audio_action;
     options_button.onclick = toggle_options;
 
-    audio.muted = true;
-    audio.play();
+    audio.muted = false;
 }
 
 function isTrue(s) {
