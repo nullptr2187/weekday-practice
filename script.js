@@ -182,20 +182,19 @@ function setup() {
 
     main_element.onclick = audio_action;
 
-    var coll = document.getElementsByClassName("collapse-button");
-    var i;
+    var options_button = document.getElementById("options");
+    var colls = document.getElementsByClassName("collapsible");
 
-    for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var element = this.nextElementSibling;
-        if (element.style.display === "block") {
-            element.style.display = "none";
-        } else {
-            element.style.display = "block";
+    options_button.addEventListener("click", function() {
+        for (j = 0; j < colls.length; ++j) {
+            var element = colls[j];
+            if (element.style.display === "block") {
+                element.style.display = "none";
+            } else {
+                element.style.display = "block";
+            }
         }
     });
-    }
 }
 
 setup();
