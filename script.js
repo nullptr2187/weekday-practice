@@ -201,10 +201,10 @@ function setup() {
     let audio = document.getElementById("audio");
     audio.src = "silence.flac";
 
-    audio.onpause = change_main_element;
+    audio.onplay = change_main_element;
 
-    audio.onplay = function() {
-        audio.pause()
+    audio.onpause = function() {
+        audio.play()
     }
 
     main_element.onclick = audio_action;
