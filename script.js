@@ -4,7 +4,8 @@ var current_date = null;
 var synth = window.speechSynthesis;
 
 var test_button = document.getElementById('play');
-var voiceSelect = document.querySelector('select');
+var voiceSelect = document.getElementById('voice-selector');
+var bg_select = document.getElementById('bg-selector');
 
 var opt_speech_pitch = document.querySelector('#pitch');
 var pitchValue = document.querySelector('.pitch-value');
@@ -22,6 +23,7 @@ var opt_fg_color = document.getElementById("color-fg");
 var opt_bg_color = document.getElementById("color-bg");
 
 var voices = [];
+var backgrounds = ["blue-galaxy.jpg"];
 
 let default_voice = 'DEFAULT'
 let selected_voice_name = null;
@@ -38,6 +40,7 @@ function populateVoiceList() {
     option.setAttribute('data-name', default_voice);
     voiceSelect.appendChild(option);
 
+    var i;
     for(i = 0; i < voices.length ; i++) {
         var option = document.createElement('option');
         option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
@@ -57,6 +60,41 @@ populateVoiceList();
 if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = populateVoiceList;
 }
+
+function populate_bg_list() {
+    var option = document.createElement('option');
+    option.textContent = 'NONE';
+    option.setAttribute('data-file', '');
+    bg_select.appendChild(option);
+
+    var i;
+    for(i= 0; i < backgrounds.length; ++i) {
+        var option = document.createElement('option');
+        option.textContent = backgrounds[i].replace(/\.[^/.]+$/, "");
+        var file = "backgrounds/" + backgrounds[i];
+        option.setAttribute('data-file', file);
+        bg_select.appendChild(option);
+    }
+
+    bg_select.selectedIndex = 0;
+}
+
+function maybe_select_bg(bg_name) {
+    if (bg_name.length == 0) {
+        bg_select.selectedIndex = 0;
+        return;
+    }
+
+    var i;
+    for(i=0; i < bg_select.options.length; ++i) {
+        let file_name = bg_select.options[i].getAttribute('data-file');
+        if (bg_name === file_name) {
+            bg_select.selectedIndex = i;
+            break;
+        }
+    }
+}
+populate_bg_list();
 
 function speak(text) {
     var utterThis = new SpeechSynthesisUtterance(text);
@@ -279,6 +317,19 @@ function loadSettings() {
         root.style.setProperty('--bg-color', value);
     }
     opt_bg_color.value = root.style.getPropertyValue('--bg-color');
+
+
+    bg_select.onchange = function () {
+        let selected_bg = bg_select.selectedOptions[0].getAttribute('data-file');
+        localStorage.setItem('selected_bg', selected_bg);
+        root.style.setProperty('--bg-image', selected_bg);
+        document.getElementById('body').style.background = 'url('+selected_bg+')';
+        console.log(selected_bg);
+    }
+    value = localStorage.getItem('selected_bg');
+    if (value != null) {
+        maybe_select_bg(value);
+    }
 }
 
 setup();
