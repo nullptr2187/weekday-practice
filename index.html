@@ -45,13 +45,12 @@ h1 {
 
             let audio = document.getElementById("audio");
 
-            audio.addEventListener("pause", event => {
+            audio.onpause = function() {
               console.log("paused");
-            });
+            }
 
-            audio.oncanplay = function() {
-              audio.muted = true;
-              audio.play();
+            audio.onplay = function() {
+              console.log("play");
             }
         }
 
@@ -104,7 +103,7 @@ h1 {
     <label for="tts">TTS?</label>
     </div>
 
-    <audio muted loop autoplay controls id="audio" oncalplay="this.muted=true">
+    <audio loop controls id="audio">
       <source src="silence.ogg" type="audio/ogg">
       Your browser does not support the audio element.
     </audio>
