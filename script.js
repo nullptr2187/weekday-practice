@@ -18,11 +18,15 @@ var main_element = document.getElementById("main-element");
 var options_button = document.getElementById("options-button");
 var colls = document.getElementById("collapsible");
 
+var opt_fg_color = document.getElementById("color-fg");
+var opt_bg_color = document.getElementById("color-bg");
+
 var voices = [];
 
 let default_voice = 'DEFAULT'
 let selected_voice_name = null;
 var lockbutton = false;
+let root = document.documentElement;
 
 function populateVoiceList() {
     voices = synth.getVoices().filter(voice => voice.lang.startsWith('en'));
@@ -181,6 +185,14 @@ opt_speech_pitch.oninput = function() {
 
 opt_speech_rate.oninput = function () {
     rateValue.textContent = opt_speech_rate.value;
+}
+
+opt_bg_color.oninput = function () {
+    root.style.setProperty('--bg-color', opt_bg_color.value);
+}
+
+opt_fg_color.oninput = function () {
+    root.style.setProperty('--fg-color', opt_fg_color.value);
 }
 
 function setup() {
