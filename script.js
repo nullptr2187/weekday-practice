@@ -6,13 +6,13 @@ var synth = window.speechSynthesis;
 var inputForm = document.querySelector('form');
 var voiceSelect = document.querySelector('select');
 
-var pitch = document.querySelector('#pitch');
+var opt_speech_pitch = document.querySelector('#pitch');
 var pitchValue = document.querySelector('.pitch-value');
-var rate = document.querySelector('#rate');
+var opt_speech_rate = document.querySelector('#rate');
 var rateValue = document.querySelector('.rate-value');
 
-var randomVoice = document.getElementById("random");
-var tts_option = document.getElementById("tts");
+var opt_random = document.getElementById("random");
+var opt_speech_enabled = document.getElementById("tts");
 var main_element = document.getElementById("main-element");
 
 var options_button = document.getElementById("options-button");
@@ -54,7 +54,7 @@ function speak(text) {
     var utterThis = new SpeechSynthesisUtterance(text);
     var selectedOption;
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    if (randomVoice.checked) {
+    if (opt_random.checked) {
         let index = Math.floor(Math.random() * voices.length) + 1;
         utterThis.voice = voices[index];
     }
@@ -66,8 +66,8 @@ function speak(text) {
             }
         }
     }
-    utterThis.pitch = pitch.value;
-    utterThis.rate = rate.value;
+    utterThis.pitch = opt_speech_pitch.value;
+    utterThis.rate = opt_speech_rate.value;
     synth.speak(utterThis);
 }
 
@@ -78,12 +78,12 @@ inputForm.onsubmit = function(event) {
     speak(date_string);
 }
 
-pitch.onchange = function() {
-  pitchValue.textContent = pitch.value;
+opt_speech_pitch.onchange = function() {
+  pitchValue.textContent = opt_speech_pitch.value;
 }
 
-rate.onchange = function() {
-  rateValue.textContent = rate.value;
+opt_speech_rate.onchange = function() {
+  rateValue.textContent = opt_speech_rate.value;
 }
 
 function random_date(start, end) {
@@ -129,7 +129,7 @@ function get_date_string_for_tts(date) {
 }
 
 function speak_if_tts(text) {
-    if (tts_option.checked) {
+    if (opt_speech_enabled.checked) {
         speak(text);
     }
 }
@@ -196,6 +196,14 @@ function setup() {
     main_element.onclick = audio_action;
 
     options_button.onclick = toggle_options;
+}
+
+function loadSettings() {
+
+}
+
+function saveSettings() {
+
 }
 
 setup();
