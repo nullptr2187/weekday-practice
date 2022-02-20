@@ -96,7 +96,7 @@ function get_date_string(date) {
     return string;
 }
 
-function get_day_string(date) {
+function get_weekday_string(date) {
     let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     return days[date.getDay()];
 }
@@ -132,18 +132,25 @@ function speak_if_tts(text) {
 
 function get_new_date() {
     current_date = random_date(new Date("1700-01-01"), new Date("2100-01-01"));
-    document.getElementById("date-element").textContent = get_date_string(current_date);
+    let date_string = get_date_string(current_date);
+    document.getElementById("main-element").textContent = date_string;
+    return date_string;
+}
+
+function show_weekday() {
+    let weekday = get_weekday_string(current_date);
+    document.getElementById("main-element").textContent = weekday;
+    return weekday;
 }
 
 function audio_action() {
     if (guessing) {
-        let weekday = get_day_string(current_date);
+        let weekday = show_weekday();
         document.title = weekday;
         speak_if_tts(weekday);
         guessing = false;
     } else {
-        get_new_date();
-        let date_string = get_date_string_for_tts(current_date);
+        let date_string = get_new_date();
         document.title = date_string;
         speak_if_tts(date_string);
         guessing = true;
@@ -152,8 +159,7 @@ function audio_action() {
 
 function setup() {
     guessing = true;
-    get_new_date();
-    let date_string = get_date_string_for_tts(current_date);
+    let date_string = get_new_date();
     document.title = date_string;
 
     let audio = document.getElementById("audio");
