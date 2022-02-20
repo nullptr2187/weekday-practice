@@ -85,10 +85,6 @@ rate.onchange = function() {
   rateValue.textContent = rate.value;
 }
 
-voiceSelect.onchange = function(){
-  speak();
-}
-
 function random_date(start, end) {
     let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     if (date.getFullYear() == 2001 && date.getDate() == 11 && date.getMonth() == 8) {
