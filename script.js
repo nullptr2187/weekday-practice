@@ -81,7 +81,6 @@ function speak(text) {
 
 inputForm.onsubmit = function(event) {
     event.preventDefault();
-
     let date_string = get_date_string_for_tts(current_date);
     speak(date_string);
 }
@@ -210,8 +209,10 @@ function setup() {
     }
 
     main_element.onclick = audio_action;
-
     options_button.onclick = toggle_options;
+
+    audio.muted = true;
+    audio.play();
 }
 
 function isTrue(s) {
