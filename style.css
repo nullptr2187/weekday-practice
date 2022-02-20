@@ -25,7 +25,7 @@ h1, h2, p {
   padding: 20px;
 }
 
-.txt, select, form > div {
+.txt, select, .form-div > div {
   display: block;
   margin: 0 auto;
   font-family: sans-serif;
@@ -59,7 +59,7 @@ select {
   width: 80%;
 }
 
-form > div {
+.form-div > div {
   width: 80%;
 }
 
@@ -73,7 +73,7 @@ label {
   font-family: sans-serif;
 }
 
-.txt, form > div {
+.txt, .form-div > div {
   margin-bottom: 10px;
   overflow: auto;
 }

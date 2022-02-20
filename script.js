@@ -3,7 +3,7 @@ var current_date = null;
 
 var synth = window.speechSynthesis;
 
-var inputForm = document.querySelector('form');
+var test_button = document.getElementById('play');
 var voiceSelect = document.querySelector('select');
 
 var opt_speech_pitch = document.querySelector('#pitch');
@@ -59,7 +59,6 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 }
 
 function speak(text) {
-    synth.cancel()
     var utterThis = new SpeechSynthesisUtterance(text);
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
     if (opt_random.checked) {
@@ -76,11 +75,11 @@ function speak(text) {
     }
     utterThis.pitch = opt_speech_pitch.value;
     utterThis.rate = opt_speech_rate.value;
+    synth.cancel()
     synth.speak(utterThis);
 }
 
-inputForm.onsubmit = function(event) {
-    event.preventDefault();
+test_button.onclick = function() {
     let date_string = get_date_string_for_tts(current_date);
     speak(date_string);
 }

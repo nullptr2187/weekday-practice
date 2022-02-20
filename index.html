@@ -30,7 +30,7 @@
     </div>
     <div class="collapsible" id="collapsible">
     <h2>Speech options</h1>
-    <form>
+    <div class="form-div">
     <div class="controls">
       <label for="tts" class="checkbox-label">Enabled</label>
       <input type="checkbox" id="tts" name="tts" unchecked>
@@ -53,11 +53,13 @@
 
     </select>
     <div class="controls">
-      <button id="play" type="submit">Test speech</button>
+      <button id="play">Test speech</button>
     </div>
-    </form>
+    </div>
+
 
     <h2>Colors</h1>
+    <div class="form-div"></div>
     <div class="centered-div padded-div">
       <label for="colorpicker">Foreground </label>
       <input type="color" id="color-fg" value="#0000ff">
@@ -66,11 +68,9 @@
       <label for="colorpicker">Background </label>
       <input type="color" id="color-bg" value="#0000ff">
     </div>
+    </div>
 
     </div>
 
     <script src="script.js"></script>
-
-    </form>
-
 </body>
