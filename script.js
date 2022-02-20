@@ -15,6 +15,9 @@ var randomVoice = document.getElementById("random");
 var tts_option = document.getElementById("tts");
 var main_element = document.getElementById("main-element");
 
+var options_button = document.getElementById("options-button");
+var colls = document.getElementById("collapsible");
+
 var voices = [];
 
 let default_voice = 'DEFAULT'
@@ -166,6 +169,16 @@ function change_main_element() {
     }
 }
 
+function toggle_options() {
+    if (colls.style.display === "block") {
+        colls.style.display = "none";
+        options_button.textContent = "Options"
+    } else {
+        colls.style.display = "block";
+        options_button.textContent = "Close"
+    }
+}
+
 function setup() {
     guessing = true;
     let date_string = get_new_date();
@@ -182,20 +195,7 @@ function setup() {
 
     main_element.onclick = audio_action;
 
-    var options_button = document.getElementById("options-button");
-    var colls = document.getElementsByClassName("collapsible");
-
-    options_button.onclick = function() {
-        var j = 0;
-        for (j = 0; j < colls.length; ++j) {
-            var element = colls[j];
-            if (element.style.display === "block") {
-                element.style.display = "none";
-            } else {
-                element.style.display = "block";
-            }
-        }
-    };
+    options_button.onclick = toggle_options;
 }
 
 setup();
