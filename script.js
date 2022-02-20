@@ -14,6 +14,8 @@ var rateValue = document.querySelector('.rate-value');
 
 var voices = [];
 
+let default_voice = 'DEFAULT'
+
 function populateVoiceList() {
   voices = synth.getVoices().sort(function (a, b) {
       const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
@@ -22,22 +24,24 @@ function populateVoiceList() {
       else return +1;
   });
   var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
-  voiceSelect.innerHTML = '';
+
+    voiceSelect.innerHTML = '';
+    var option = document.createElement('option');
+    option.textContent = default_voice;
+    option.setAttribute('data-name', default_voice);
+    voiceSelect.appendChild(option);
+
   for(i = 0; i < voices.length ; i++) {
     if (!voices[i].lang.startsWith('en')) {
         continue;
     }
     var option = document.createElement('option');
     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-    
-    if(voices[i].default) {
-      option.textContent += ' -- DEFAULT';
-    }
-
     option.setAttribute('data-lang', voices[i].lang);
     option.setAttribute('data-name', voices[i].name);
     voiceSelect.appendChild(option);
   }
+
   voiceSelect.selectedIndex = selectedIndex;
 }
 
@@ -50,10 +54,12 @@ function speak(text) {
     synth.cancel()
     var utterThis = new SpeechSynthesisUtterance(text);
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for(i = 0; i < voices.length ; i++) {
-        if(voices[i].name === selectedOption) {
-        utterThis.voice = voices[i];
-        break;
+    if (selectedOption != default_voice) {
+        for(i = 0; i < voices.length ; i++) {
+            if(voices[i].name === selectedOption) {
+            utterThis.voice = voices[i];
+            break;
+            }
         }
     }
     utterThis.pitch = pitch.value;
