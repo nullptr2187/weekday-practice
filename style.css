@@ -56,8 +56,6 @@ button {
 }
 
 select {
-  color: var(--fg-color);
-  background-color: var(--bg-color);
   width: 80%;
 }
 
@@ -102,8 +100,6 @@ label {
 }
 
 #rate, #pitch {
-  color: var(--fg-color);
-  background-color: var(--bg-color);
   float: right;
   width: calc(90% - 50px);
 }
