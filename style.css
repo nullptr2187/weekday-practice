@@ -28,7 +28,10 @@ h1, p {
 
 .centered-div {
   text-align: center;
-  display: none;
+}
+
+.hidden-div {
+  text-align: center;
 }
 
 audio {
@@ -101,15 +104,9 @@ form > div {
   font-size: 15px;
 }
 
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active {
-  background-color: #ccc;
-}
-
 /* Style the collapsible content. Note: hidden by default */
 .collapsible {
   padding: 0 18px;
   display: none;
   overflow: hidden;
-  background-color: #f1f1f1;
 }
