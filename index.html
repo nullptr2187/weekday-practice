@@ -46,21 +46,6 @@ audio {
         var guessing = true;
         var current_date = null;
 
-        function stop_sound() {
-          let audio = document.getElementById("audio");
-          audio.src = "silence.ogg";
-        }
-
-        function play_date_sound() {
-            var msg = new SpeechSynthesisUtterance();
-            msg.text = "June 14, 1703";
-            msg.addEventListener("end", event => {
-              console.log("speech")
-            })
-
-            window.speechSynthesis.speak(msg);
-        }
-
         function random_date(start, end) {
             let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
             if (date.getFullYear() == 2001 && date.getDate() == 11 && date.getMonth() == 8) {
@@ -69,7 +54,7 @@ audio {
             return date;
         }
 
-        function format_date(date) {
+        function get_date_string(date) {
             let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             let string = months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
             return string;
@@ -80,31 +65,33 @@ audio {
           return days[date.getDay()];
         }
 
-        function new_date_string() {
-            current_date = random_date(new Date("1700-01-01"), new Date("2100-01-01"));
-            let date_string = format_date(current_date);
-            document.getElementById("date-element").textContent = date_string;
+        function say(text) {
+          if (document.getElementById("tts").checked) {
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            window.speechSynthesis.speak(msg);
+          }
+        }
 
-            if (document.getElementById("tts").checked) {
-              var msg = new SpeechSynthesisUtterance();
-              msg.text = date_string;
-              window.speechSynthesis.speak(msg);
-            }
+        function get_new_date() {
+            current_date = random_date(new Date("1700-01-01"), new Date("2100-01-01"));
+            document.getElementById("date-element").textContent = get_date_string(current_date);
         }
 
         function audio_action() {
           if (guessing) {
-
+            say(get_day_string(current_date));
             guessing = false;
           } else {
-
+            get_new_date();
+            say(get_date_string(current_date));
             guessing = true;
           }
         }
 
         function setup() {
+            get_new_date();
             guessing = true;
-            new_date_string();
 
             let audio = document.getElementById("audio");
             audio.src = "silence.flac";
@@ -125,7 +112,7 @@ audio {
     <div class="centered-div">
     <a id="date-element"> DATE </a>
     </div>
-    <button onclick="javascript:new_date_string();">Next Date</button>
+    <button onclick="javascript:get_new_date();">Next Date</button>
 
     <div class="centered-div">
     <input type="checkbox" id="tts" name="tts" checked>
