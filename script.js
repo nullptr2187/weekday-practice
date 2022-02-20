@@ -144,19 +144,25 @@ function get_new_date() {
 
 function audio_action() {
     if (guessing) {
-    speak_if_tts(get_day_string(current_date));
-    guessing = false;
+        let weekday = get_day_string(current_date);
+        document.title = weekday;
+        speak_if_tts(weekday);
+        guessing = false;
     } else {
-    get_new_date();
-    speak_if_tts(get_date_string_for_tts(current_date));
-    guessing = true;
+        get_new_date();
+        let date_string = get_date_string_for_tts(current_date);
+        document.title = date_string;
+        speak_if_tts(date_string);
+        guessing = true;
     }
 }
 
 function setup() {
-    get_new_date();
-    inputTxt.value = get_date_string_for_tts(new Date(Date.now()));
     guessing = true;
+    get_new_date();
+    let date_string = get_date_string_for_tts(current_date);
+    document.title = date_string;
+    inputTxt.value = get_date_string_for_tts(new Date(Date.now()));
 
     let audio = document.getElementById("audio");
     audio.src = "silence.flac";
