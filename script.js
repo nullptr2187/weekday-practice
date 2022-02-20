@@ -11,18 +11,15 @@ var pitchValue = document.querySelector('.pitch-value');
 var rate = document.querySelector('#rate');
 var rateValue = document.querySelector('.rate-value');
 
+var randomVoice = document.getElementById("random");
+
 var voices = [];
 
 let default_voice = 'DEFAULT'
 var lockbutton = false;
 
 function populateVoiceList() {
-  voices = synth.getVoices().sort(function (a, b) {
-      const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
-      if ( aname < bname ) return -1;
-      else if ( aname == bname ) return 0;
-      else return +1;
-  });
+  voices = synth.getVoices().filter(voice => voice.lang.startsWith('en'));
   var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
 
     voiceSelect.innerHTML = '';
@@ -32,9 +29,6 @@ function populateVoiceList() {
     voiceSelect.appendChild(option);
 
   for(i = 0; i < voices.length ; i++) {
-    if (!voices[i].lang.startsWith('en')) {
-        continue;
-    }
     var option = document.createElement('option');
     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
     option.setAttribute('data-lang', voices[i].lang);
@@ -53,12 +47,17 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 function speak(text) {
     synth.cancel()
     var utterThis = new SpeechSynthesisUtterance(text);
+    var selectedOption;
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    if (selectedOption != default_voice) {
+    if (randomVoice.checked) {
+        let index = Math.floor(Math.random() * voices.length) + 1;
+        utterThis.voice = voices[index];
+    }
+    else if (selectedOption != default_voice) {
         for(i = 0; i < voices.length ; i++) {
             if(voices[i].name === selectedOption) {
-            utterThis.voice = voices[i];
-            break;
+                utterThis.voice = voices[i];
+                break;
             }
         }
     }
@@ -176,6 +175,22 @@ function setup() {
     audio.onplay = function() {
         audio.pause()
     }
+
+    var coll = document.getElementsByClassName("collapse-button");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var element = this.nextElementSibling;
+        if (element.style.display === "block") {
+            element.style.display = "none";
+        } else {
+            element.style.display = "block";
+        }
+    });
+    }
 }
+
 
 setup();
