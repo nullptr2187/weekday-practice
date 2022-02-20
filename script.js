@@ -4,7 +4,6 @@ var current_date = null;
 var synth = window.speechSynthesis;
 
 var inputForm = document.querySelector('form');
-var inputTxt = document.querySelector('.txt');
 var voiceSelect = document.querySelector('select');
 
 var pitch = document.querySelector('#pitch');
@@ -68,13 +67,10 @@ function speak(text) {
 }
 
 inputForm.onsubmit = function(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  if (inputTxt.value !== '') {
-    speak(inputTxt.value);
-  }
-
-  inputTxt.blur();
+    let date_string = get_date_string_for_tts(current_date);
+    speak(date_string);
 }
 
 pitch.onchange = function() {
@@ -158,7 +154,6 @@ function setup() {
     get_new_date();
     let date_string = get_date_string_for_tts(current_date);
     document.title = date_string;
-    inputTxt.value = get_date_string_for_tts(new Date(Date.now()));
 
     let audio = document.getElementById("audio");
     audio.src = "silence.flac";
