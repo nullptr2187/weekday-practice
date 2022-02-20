@@ -55,11 +55,11 @@ button {
 }
 
 select {
-  width: 83%;
+  width: 80%;
 }
 
 form > div {
-  width: 81%;
+  width: 80%;
 }
 
 .main-element {
@@ -88,13 +88,13 @@ form > div {
 
 .rate-value, .pitch-value {
   float: right;
-  width: 5%;
   line-height: 1.5;
+  padding-right: 4px;
 }
 
 #rate, #pitch {
   float: right;
-  width: 81%;
+  width: calc(90% - 50px);
 }
 
 .controls {
